@@ -12,4 +12,10 @@ urlpatterns = [
     url(r'^links/$', views.LinksPageView.as_view()),  # simple view
     url(r'^getcust/$', views.Customers.getCust),  # simple view
     url(r'^apitest/$', views.CalcTest),  # for REST API test
+    url(r'^getnum/$', views.Customers.getNums),
+    url(r'^getimg/$', views.Customers.getimage),
+    url(r'^getdata/$', views.Customers.getData),
+    url(r'^getsbdata/$', views.Customers.getSBData),
+    url(r'^getavg/$', views.Customers.getAvg),
+
 ]
