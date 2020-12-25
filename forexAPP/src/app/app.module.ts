@@ -3,21 +3,29 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-
-
+import { AngularMaterialModule } from './modules/angular-material/angular-material.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TopbarComponent } from './application/topbar/topbar.component';
+import { ResultsComponent } from './application/results/results.component';
+import { EntryComponent } from './application/entry/entry.component';
+
 
 @NgModule({
-  declarations: [	
+  declarations: [			
     AppComponent,
-
-      
+    TopbarComponent,
+    ResultsComponent,
+    EntryComponent,
    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    AngularMaterialModule,
     FormsModule,
+    BrowserAnimationsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -5,7 +5,6 @@ from django.views.generic import TemplateView
 
 import pandas as pd
 import os
-import seaborn as sb
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,7 +17,7 @@ from rest_framework import serializers
 from rest_framework import viewsets
 
 from forexPredict.models import Customer
-
+from .algorithms import forexLSTM
 pl.use('Agg')
 
 
@@ -61,15 +60,7 @@ class Customers(TemplateView):
         return HttpResponse(str(np.average(ar)))
 
     def getimage(request):
-        x = np.arange(0, 2 * np.pi, 0.01)
-        s = np.cos(x) ** 2
-        fig, ax = plt.subplots()
-        plt.plot(x, s)
-
-        plt.xlabel('xlabel(X)')
-        plt.ylabel('ylabel(Y)')
-        plt.title('Simple Graph!')
-        plt.grid(True)
+        plt = forexLSTM.get_plot()
 
         response = HttpResponse(content_type="image/jpeg")
         plt.savefig(response, format="png")
@@ -81,14 +72,6 @@ class Customers(TemplateView):
                           columns=['Jan', 'Feb', 'Mar', 'Apr', 'May'])
         return HttpResponse(df.to_html(classes='table table-bordered'))
 
-    def getSBData(request):
-        module_dir = os.path.dirname(__file__)
-        file_path = os.path.join(module_dir, 'titanic_train.csv')
-        df = pd.read_csv(file_path)
-        gr = sb.factorplot(x='Survived', hue='Sex', data=df, col='Pclass', kind='count')
-        response = HttpResponse(content_type="image/jpeg")
-        gr.savefig(response, format="png")
-        return response
 
 
 class CustSerializer(serializers.HyperlinkedModelSerializer):

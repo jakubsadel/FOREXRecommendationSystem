@@ -15,7 +15,6 @@ urlpatterns = [
     url(r'^getnum/$', views.Customers.getNums),
     url(r'^getimg/$', views.Customers.getimage),
     url(r'^getdata/$', views.Customers.getData),
-    url(r'^getsbdata/$', views.Customers.getSBData),
     url(r'^getavg/$', views.Customers.getAvg),
 
 ]
