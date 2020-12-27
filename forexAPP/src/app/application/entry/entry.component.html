@@ -1,17 +1,12 @@
 <div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <button (click)="loadData()">Load Data</button>
 
-  <h2>Test App: {{c1.todayDate}}</h2>
-  <button (click)="click2()" >click me</button>
+  <br>
 
+  <label><h2>Akcje "{{s1.stockID}}" w dniach {{s1.previousDate}} - {{s1.todayDate}}</h2></label>
+  <button mat-raised-button color="warn" (click)="loadStockData()" >Załaduj Dane</button>
 
-  <br/>
-</div>
-<div style="text-align:center">
+  <img src={{imgsrc}} width="1000">
 
-<img src={{imgsrc}} width="1000">
-<span innerHtml={{todayDate}}></span>
+ 
+
 </div>

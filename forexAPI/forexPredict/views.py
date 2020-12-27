@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import matplotlib as pl
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -26,9 +28,15 @@ class HomePageView(TemplateView):
 
 
 class Stocks(TemplateView):
-    def getStock(request):
-        name = utils.get_today_date()
-        return HttpResponse('{ "todayDate":"' + name + '", "previousDate":"New York" }')
+    def getStockData(request):
+        todayDate = utils.get_today_date()
+        previousDate = utils.get_2weeks_date()
+        stockID = 'EUR/USD'
+        return HttpResponse('{ "todayDate":"' + todayDate +
+                            '", "previousDate":"' + previousDate +
+                            '", "stockID":"' + stockID + '" }')
+
+
 
     def getNums(request):
         n = np.array([2, 3, 4])
@@ -36,7 +44,9 @@ class Stocks(TemplateView):
         return HttpResponse('{ "name":"' + name1 + '", "age":31, "city":"New York" }')
 
     def getImage(request):
-        plt = forexLSTM.get_plot()
+        todayDate = utils.get_today_date()
+        previousDate = utils.get_2weeks_date()
+        plt = utils.get_stock_plot(previousDate, todayDate)
 
         response = HttpResponse(content_type="image/jpeg")
         plt.savefig(response, format="png")
@@ -48,10 +58,7 @@ class Stocks(TemplateView):
                           columns=['Jan', 'Feb', 'Mar', 'Apr', 'May'])
         return HttpResponse(df.to_html(classes='table table-bordered'))
 
-    def getTodayDate(request):
-        todayDate = utils.get_today_date()
 
-        return HttpResponse(str(todayDate))
 
 class StockSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

@@ -7,9 +7,8 @@ router.register(r'stocks', views.StockViewSet)
 
 urlpatterns = [
     url(r'^$', views.HomePageView.as_view()),
-    url(r'^getcust/$', views.Stocks.getStock),
-    url(r'^getnum/$', views.Stocks.getNums),
+    url(r'^getstockdata/$', views.Stocks.getStockData),
     url(r'^getimg/$', views.Stocks.getImage),
+    url(r'^getnum/$', views.Stocks.getNums),
     url(r'^getdata/$', views.Stocks.getData),
-    url(r'^getdejt/$', views.Stocks.getTodayDate),
 ]

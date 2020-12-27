@@ -11,7 +11,7 @@ import { EntryComponent } from './application/entry/entry.component';
 
 
 @NgModule({
-  declarations: [			
+  declarations: [
     AppComponent,
     TopbarComponent,
     EntryComponent,
@@ -28,4 +28,4 @@ import { EntryComponent } from './application/entry/entry.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

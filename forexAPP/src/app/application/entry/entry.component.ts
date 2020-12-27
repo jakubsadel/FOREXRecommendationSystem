@@ -9,45 +9,39 @@ import { map, tap } from 'rxjs/operators';
 })
 export class EntryComponent {
 
-  title = 'FRS';
+  title = 'FOREX Recommendation System ';
   imgsrc = '';
   pandas = '';
   resavg = '';
   str1 = '';
   todayDate = '';
   constructor(private _http: HttpClient) {
-    this.c1.todayDate = "xddd"
+    this.s1.todayDate = '____-__-__';
+    this.s1.previousDate =  '____-__-__';
+    this.s1.stockID = '____';
   }
 
-  c1:Stock = new Stock();
+  s1: Stock = new Stock();
 
 
-  loadData(): void
-  {
-   this.getImage();
-   this.getDate();
-    }
 
 
-  getImage()
+  getImage(): void
   {
   this.imgsrc = '/getimg';
   }
 
-  getDate()
-  { console.log('xd');
-    this._http.get("/getdejt").subscribe(res => this.todayDate = res.toString());
-    console.log(this.todayDate);
+
+  loadStockData(): void
+  {
+    this.getStockInfo().subscribe(a => this.s1 = a);
+    this.getImage();
   }
 
-  click2(){
-    this.getAllBooks().subscribe(b => this.c1 = b)
-  }
-
-  getAllBooks()
+  getStockInfo()
   {
     return this._http
-      .get<Stock>('/getcust') 
+      .get<Stock>('/getstockdata') ;
   }
 
 }
@@ -56,4 +50,5 @@ export class EntryComponent {
 export class Stock{
   todayDate!: string;
   previousDate!: string;
+  stockID!: string;
 }
