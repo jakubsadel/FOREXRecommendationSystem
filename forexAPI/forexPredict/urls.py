@@ -1,20 +1,15 @@
-from django.conf.urls import url
-from django.urls import path, include
-
-from forexPredict import views
 from rest_framework import routers
+from django.conf.urls import url
+from forexPredict import views
 
 router = routers.DefaultRouter()
-router.register(r'customers', views.CustViewSet)
+router.register(r'stocks', views.StockViewSet)
 
 urlpatterns = [
     url(r'^$', views.HomePageView.as_view()),
-    url(r'^links/$', views.LinksPageView.as_view()),  # simple view
-    url(r'^getcust/$', views.Customers.getCust),  # simple view
-    url(r'^apitest/$', views.CalcTest),  # for REST API test
-    url(r'^getnum/$', views.Customers.getNums),
-    url(r'^getimg/$', views.Customers.getimage),
-    url(r'^getdata/$', views.Customers.getData),
-    url(r'^getavg/$', views.Customers.getAvg),
-
+    url(r'^getcust/$', views.Stocks.getStock),
+    url(r'^getnum/$', views.Stocks.getNums),
+    url(r'^getimg/$', views.Stocks.getImage),
+    url(r'^getdata/$', views.Stocks.getData),
+    url(r'^getdejt/$', views.Stocks.getTodayDate),
 ]

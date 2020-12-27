@@ -1,8 +1,4 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
-import {Observable} from 'rxjs';
-
 
 @Component({
   selector: 'app-root',
@@ -12,6 +8,6 @@ import {Observable} from 'rxjs';
 export class AppComponent {
   
 
-
+  
 }
  

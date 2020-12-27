@@ -7,7 +7,6 @@ import { AngularMaterialModule } from './modules/angular-material/angular-materi
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TopbarComponent } from './application/topbar/topbar.component';
-import { ResultsComponent } from './application/results/results.component';
 import { EntryComponent } from './application/entry/entry.component';
 
 
@@ -15,7 +14,6 @@ import { EntryComponent } from './application/entry/entry.component';
   declarations: [			
     AppComponent,
     TopbarComponent,
-    ResultsComponent,
     EntryComponent,
    ],
   imports: [

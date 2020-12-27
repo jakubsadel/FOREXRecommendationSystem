@@ -2,16 +2,16 @@
   <h1>
     Welcome to {{title}}!
   </h1>
-  <button (click)="click1()" >click me</button>
-  <input type="text" [(ngModel)]='str1'>
-  <button (click)="getavg()">Get Average</button>
-  <input type="text" value={{resavg}}>
-  <button (click)="getimage()">load graph</button>
-  <button (click)="getDF()">load table</button>
-  <button (click)="getsbimage()">seaborn graph</button>
+  <button (click)="loadData()">Load Data</button>
+
+  <h2>Test App: {{c1.todayDate}}</h2>
+  <button (click)="click2()" >click me</button>
+
+
   <br/>
 </div>
-<img src={{imgsrc}} width="500">
-<h2>Test App: {{c1.name}}</h2>
-<span innerHtml={{pandas}}></span>
-<img src={{imgsbsrc}} width="1000">
+<div style="text-align:center">
+
+<img src={{imgsrc}} width="1000">
+<span innerHtml={{todayDate}}></span>
+</div>

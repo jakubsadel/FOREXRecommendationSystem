@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 def get_plot():
     df = web.DataReader('EURUSD=X', data_source='yahoo', start='2010-01-01', end='2020-11-22')
-    plt.figure(figsize=(16, 8))
+    plt.figure(figsize=(30, 15))
     plt.title('Euro Close Price History')
     plt.plot(df['Close'])
     plt.xlabel('Date', fontsize=18)

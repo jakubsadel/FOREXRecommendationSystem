@@ -1,18 +1,18 @@
 {% load static %}
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Forex Recommendation System</title>
+  <title>ForexAPP</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-      <!-- index.html -->
+  <link rel="icon" type="image/x-icon" href="{% static favicon.ico%}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'styles.css'%}"></head>
-<body>
-  <app-root>Loading...</app-root>
+<body class="mat-typography">
+  <app-root></app-root>
+  <script type="text/javascript" src="{% static 'runtime.js' %}"></script>
   <script type="text/javascript" src="{% static 'polyfills.js' %}"></script>
   <script type="text/javascript" src="{% static 'vendor.js' %}"></script>
-  <script type="text/javascript" src="{% static 'runtime.js' %}"></script>
-  <script type="text/javascript" src="{% static 'main.js' %}"></script></body>
-</html>
+ <script type="text/javascript" src="{% static 'main.js' %}"></script></body></html>
