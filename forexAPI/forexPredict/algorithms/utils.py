@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import pandas_datareader as web
-import plotly.graph_objects as go
 
 def get_today_date():
     tup = datetime.today().strftime('%Y-%m-%d')
