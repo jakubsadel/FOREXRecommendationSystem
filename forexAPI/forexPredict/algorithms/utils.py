@@ -10,7 +10,7 @@ def get_today_date():
 
 
 def get_previous_date():
-    tup = (datetime.today() - timedelta(days=28)).strftime('%Y-%m-%d')
+    tup = (datetime.today() - timedelta(days=6)).strftime('%Y-%m-%d')
     date_previous = ''.join(tup)
     return date_previous
 
@@ -21,6 +21,8 @@ def get_stock_plot(start_data, end_data):
     plt.title('Euro Close Price History')
     plt.plot(df['Close'])
 
+    print(df)
+    print(df.shape)
     plt.xlabel('Date', fontsize=10)
     plt.ylabel('Close Price USD ($)', fontsize=10)
     plt.show()
