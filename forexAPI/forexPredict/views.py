@@ -1,24 +1,18 @@
-from datetime import datetime, timedelta
-
 import matplotlib as pl
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
+
 pl.use('Agg')
 import pandas as pd
 
 import numpy as np
 # Create your views here.
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework.utils import json
 from rest_framework import serializers
 from rest_framework import viewsets
 
-from forexPredict.models import  Stock
-from .algorithms import forexLSTM, utils
-
+from forexPredict.models import Stock
+from .algorithms import utils
 
 
 class HomePageView(TemplateView):
@@ -26,17 +20,14 @@ class HomePageView(TemplateView):
         return render(request, 'index.html', context=None)
 
 
-
 class Stocks(TemplateView):
     def getStockData(request):
         todayDate = utils.get_today_date()
-        previousDate = utils.get_2weeks_date()
+        previousDate = utils.get_previous_date()
         stockID = 'EUR/USD'
         return HttpResponse('{ "todayDate":"' + todayDate +
                             '", "previousDate":"' + previousDate +
                             '", "stockID":"' + stockID + '" }')
-
-
 
     def getNums(request):
         n = np.array([2, 3, 4])
@@ -45,7 +36,7 @@ class Stocks(TemplateView):
 
     def getImage(request):
         todayDate = utils.get_today_date()
-        previousDate = utils.get_2weeks_date()
+        previousDate = utils.get_previous_date()
         plt = utils.get_stock_plot(previousDate, todayDate)
 
         response = HttpResponse(content_type="image/jpeg")
@@ -57,7 +48,6 @@ class Stocks(TemplateView):
         df = pd.DataFrame(samp, index=['avi', 'dani', 'rina', 'dina'],
                           columns=['Jan', 'Feb', 'Mar', 'Apr', 'May'])
         return HttpResponse(df.to_html(classes='table table-bordered'))
-
 
 
 class StockSerializer(serializers.HyperlinkedModelSerializer):

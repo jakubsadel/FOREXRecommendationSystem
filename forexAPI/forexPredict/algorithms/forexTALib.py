@@ -1,22 +1,27 @@
 import talib
-import math
-import numpy as np
 import pandas as pd
-import pandas_datareader as web
-import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
+import pandas_datareader as pdr
+
+from forexPredict.algorithms import utils
 
 
 def find_patterns():
-    date_today = datetime.today().strftime('%Y-%m-%d')
-    date_14_days_ago = (datetime.today() - timedelta(days=14)).strftime('%Y-%m-%d')
+    end_date = utils.get_today_date()
+    start_date = utils.get_previous_date()
 
-    print(date_14_days_ago)
-    print(date_today)
+    print(start_date)
+    print(end_date)
 
-    df = web.DataReader('EURUSD=X', data_source='yahoo', start=date_14_days_ago,
-                        end=datetime.today().strftime('%Y-%m-%d'))
+    single = pd.DataFrame
+
+    df = pdr.DataReader('EURUSD=X', data_source='yahoo', start=start_date, end=end_date)
     df = df.reset_index()
+
+    single = df
+
+    print(single.head)
+
+    print(single.shape)
 
     print(df.shape)
 
@@ -101,6 +106,7 @@ def find_patterns():
         doji = talib.CDLDOJI(df['Open'], df['High'], df['Low'], df['Close'])
         df['Doji'] = doji
         doji_days = df[df['Doji'] != 0]
+        print(doji_days)
         print('Doji works')
         return doji_days
 
@@ -126,6 +132,7 @@ def find_patterns():
     print(spinning_top_pattern())
 
     print(df.shape)
+    print(df.head)
 
 
 find_patterns()
