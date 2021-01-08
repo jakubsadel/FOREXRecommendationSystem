@@ -1,49 +1,24 @@
-import math
-import pandas_datareader as web
 import numpy as np
-import pandas as pd
-from keras import models
-from sklearn.preprocessing import MinMaxScaler
-import tensorflow as tf
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import LSTM
-from keras.layers import Dropout
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-import pandas_datareader as web
-import math
 import yfinance as yf
+import math
+from sklearn.preprocessing import MinMaxScaler
+from keras.layers import LSTM, Dropout, Dense
+from keras.models import Sequential, load_model
+
+from forexPredict.algorithms import utils
 
 
-def use_model():
-    new = web.DataReader('EURUSD=X', data_source='yahoo', start='2020-01-01', end='2020-05-05')
-    from sklearn.preprocessing import MinMaxScaler
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    new = new.filter(['Close'])
-    new_dataset = new.values
-    model = models.load_model('lstm_model.h5')
-    test = []
-    for i in range(60, len(new_dataset)):
-        test.append(new_dataset[i - 60:i, 0])
-
-    test = np.array(test)
-    test = np.reshape(test, (test.shape[0], test.shape[1], 1))
-    new_predictions = model.predict(test)
-    print(new_predictions)
-    print(new_predictions.shape)
-
-def train_model():
-    data = web.DataReader('EURUSD=X', data_source='yahoo', start='2011-12-31', end='2019-12-31')
-    data_close = data.filter(['Close'])
+def lstm_forecast():
+    df = yf.download(tickers='EURUSD=X', start='2005-01-01', end='2019-12-31', interval='1d')
+    data_close = df.filter(['Close'])
     dataset = data_close.values
     train_len = math.ceil(len(dataset) * .8)
     scaler = MinMaxScaler(feature_range=(0, 1))
     training_data = scaler.fit_transform(dataset[:train_len, :])
+
     x_train = []
     y_train = []
+
     for i in range(60, len(training_data)):
         x_train.append(training_data[i - 60:i, 0])
         y_train.append(training_data[i, 0])
@@ -51,32 +26,64 @@ def train_model():
     x_train, y_train = np.array(x_train), np.array(y_train)
     x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
 
-    model = Sequential()
-    model.add(LSTM(50, return_sequences=True, input_shape=(x_train.shape[1], 1)))
-    model.add(LSTM(50, return_sequences=False))
-    model.add(Dropout(0.2))
-    model.add(Dense(25))
-    model.add(Dense(1))
-    model.compile(optimizer='adam', loss='mean_squared_error')
-    model.save('lstm_model.h5')
+    # forexPredictor = Sequential()
+    # forexPredictor.add(LSTM(50, return_sequences=True, input_shape=(x_train.shape[1], 1)))
+    # forexPredictor.add(LSTM(50, return_sequences=False))
+    # forexPredictor.add(Dropout(0.2))
+    # forexPredictor.add(Dense(50))
+    # forexPredictor.add(Dense(1))
+    # forexPredictor.compile(optimizer='adam', loss='mean_squared_error')
+    # forexPredictor.save('my_model')
+    #
+    # forexPredictor.fit(x_train, y_train, epochs=100, batch_size=128)
 
-    model.fit(x_train, y_train, epochs=100, batch_size=32)
+    model = load_model('my_model')
 
-    # remaining 20%
-    test_data = scaler.transform(dataset[train_len - 60:, :])
-    x_test = []
-    for i in range(60, len(test_data)):
-        x_test.append(test_data[i - 60:i, 0])
+    end_date = utils.get_today_date()
+    start_date = utils.get_previous_date(84)
 
-    x_test = np.array(x_test)
-    x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-    x_test.shape
+    new = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='1d')
 
-    predictions = model.predict(x_test)
-    predictions = scaler.inverse_transform(predictions)  # importance of transforme only
-    predictions.shape
+    new = new.filter(['Close'])
+    new_dataset = new.values
+    new_data = scaler.transform(new_dataset)
 
-    model.save('lstm_model.h5')
+    new_test = []
+    for i in range(60, len(new_data)):
+        new_test.append(new_data[i - 60:i, 0])
 
+    temp_input = list(new_test)
+    temp_input = temp_input[0].tolist()
 
-use_model()
+    new_test = np.array(new_test)
+    print(new_test.shape)
+    new_test = np.reshape(new_test, (new_test.shape[0], new_test.shape[1], 1))
+    print(new_test.shape)
+
+    lst_output = []
+    n_steps = 60
+    i = 0
+    predictions = list()
+
+    while (i < 10):
+
+        if (len(temp_input) > n_steps):
+            new_test = np.array(temp_input[1:])
+            new_test = new_test.reshape(1, -1)
+            new_test = new_test.reshape((1, n_steps, 1))
+            yhat = model.predict(new_test)
+            yhat = scaler.inverse_transform(yhat)
+            predictions.append(yhat[0][0])
+            temp_input.extend(yhat[0].tolist())
+            temp_input = temp_input[1:]
+            i = i + 1
+        else:
+            new_test = new_test.reshape((1, n_steps, 1))
+            yhat = model.predict(new_test)
+            yhat = scaler.inverse_transform(yhat)
+            temp_input.extend(yhat[0].tolist())
+            lst_output.extend(yhat.tolist())
+            i = i + 1
+
+    print(predictions)
+    return predictions

@@ -1,20 +1,20 @@
 import talib
 import pandas as pd
 import pandas_datareader as pdr
-
+import yfinance as yf
 from forexPredict.algorithms import utils
 
 
 def find_patterns():
     end_date = utils.get_today_date()
-    start_date = utils.get_previous_date()
+    start_date = utils.get_previous_date(84)
 
     print(start_date)
     print(end_date)
 
     single = pd.DataFrame
 
-    df = pdr.DataReader('EURUSD=X', data_source='yahoo', start=start_date, end=end_date)
+    df = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='1d')
     df = df.reset_index()
 
     single = df

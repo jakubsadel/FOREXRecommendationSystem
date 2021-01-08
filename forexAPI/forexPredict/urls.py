@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^getimg/$', views.Stocks.getImage),
     url(r'^getnum/$', views.Stocks.getNums),
     url(r'^getdata/$', views.Stocks.getData),
+    url(r'^getlstm/$', views.Stocks.getLSTM),
 ]

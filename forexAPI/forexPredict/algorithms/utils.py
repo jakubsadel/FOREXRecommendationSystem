@@ -9,8 +9,8 @@ def get_today_date():
     return date_today
 
 
-def get_previous_date():
-    tup = (datetime.today() - timedelta(days=6)).strftime('%Y-%m-%d')
+def get_previous_date(days):
+    tup = (datetime.today() - timedelta(days=days)).strftime('%Y-%m-%d')
     date_previous = ''.join(tup)
     return date_previous
 
@@ -27,3 +27,4 @@ def get_stock_plot(start_data, end_data):
     plt.ylabel('Close Price USD ($)', fontsize=10)
     plt.show()
     return plt
+

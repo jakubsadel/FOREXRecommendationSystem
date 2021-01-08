@@ -12,7 +12,7 @@ from rest_framework import serializers
 from rest_framework import viewsets
 
 from forexPredict.models import Stock
-from .algorithms import utils
+from .algorithms import utils, forexLSTM
 
 
 class HomePageView(TemplateView):
@@ -23,11 +23,22 @@ class HomePageView(TemplateView):
 class Stocks(TemplateView):
     def getStockData(request):
         todayDate = utils.get_today_date()
-        previousDate = utils.get_previous_date()
+        previousDate = utils.get_previous_date(13)
         stockID = 'EUR/USD'
         return HttpResponse('{ "todayDate":"' + todayDate +
                             '", "previousDate":"' + previousDate +
                             '", "stockID":"' + stockID + '" }')
+
+    def getLSTM(request):
+        predictions = forexLSTM.lstm_forecast()
+        str1 = ""
+
+        # traverse in the string
+        for ele in predictions:
+            due = str(ele.item())
+            str1 += due
+
+        return HttpResponse('{ "todayDate":"' + str1 + '" }')
 
     def getNums(request):
         n = np.array([2, 3, 4])
@@ -36,7 +47,7 @@ class Stocks(TemplateView):
 
     def getImage(request):
         todayDate = utils.get_today_date()
-        previousDate = utils.get_previous_date()
+        previousDate = utils.get_previous_date(13)
         plt = utils.get_stock_plot(previousDate, todayDate)
 
         response = HttpResponse(content_type="image/jpeg")
