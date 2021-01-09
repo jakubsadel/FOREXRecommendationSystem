@@ -12,7 +12,7 @@ from rest_framework import serializers
 from rest_framework import viewsets
 
 from forexPredict.models import Stock
-from .algorithms import utils, forexLSTM
+from .algorithms import utils, forexLSTM, forexTALib
 
 
 class HomePageView(TemplateView):
@@ -31,14 +31,17 @@ class Stocks(TemplateView):
 
     def getLSTM(request):
         predictions = forexLSTM.lstm_forecast()
-        str1 = ""
-
-        # traverse in the string
-        for ele in predictions:
-            due = str(ele.item())
-            str1 += due
-
-        return HttpResponse('{ "todayDate":"' + str1 + '" }')
+        # str1 = ""
+        #
+        # for ele in predictions:
+        #     flolt = ele.item()
+        # #     flolt = "{:.4f}".format(flolt)
+        # #     due = str(flolt)
+        # #     str1 = str1 + " " + due
+        #
+        # print(str1)
+        request.getLSTMplot(predictions)
+        return HttpResponse('{ "Predictions":"' + "str1" + '" }')
 
     def getNums(request):
         n = np.array([2, 3, 4])
@@ -49,6 +52,15 @@ class Stocks(TemplateView):
         todayDate = utils.get_today_date()
         previousDate = utils.get_previous_date(13)
         plt = utils.get_stock_plot(previousDate, todayDate)
+        # plt = forexTALib.find_patterns()
+
+        response = HttpResponse(content_type="image/jpeg")
+        plt.savefig(response, format="png")
+        return response
+
+    def getLSTMplot(request):
+
+        plt = forexLSTM.lstm_forecast()
 
         response = HttpResponse(content_type="image/jpeg")
         plt.savefig(response, format="png")

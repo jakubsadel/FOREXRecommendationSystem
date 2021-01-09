@@ -1,27 +1,21 @@
 import talib
 import pandas as pd
-import pandas_datareader as pdr
 import yfinance as yf
 from forexPredict.algorithms import utils
+import matplotlib.pyplot as plt
 
 
 def find_patterns():
     end_date = utils.get_today_date()
-    start_date = utils.get_previous_date(84)
+    start_date = utils.get_previous_date(13)
 
     print(start_date)
     print(end_date)
 
     single = pd.DataFrame
 
-    df = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='1d')
+    df = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='1h')
     df = df.reset_index()
-
-    single = df
-
-    print(single.head)
-
-    print(single.shape)
 
     print(df.shape)
 
@@ -102,20 +96,19 @@ def find_patterns():
         print('Dark Cloud Cover works')
         return dark_cloud_cover_days
 
-    def doji_pattern():
-        doji = talib.CDLDOJI(df['Open'], df['High'], df['Low'], df['Close'])
-        df['Doji'] = doji
-        doji_days = df[df['Doji'] != 0]
-        print(doji_days)
-        print('Doji works')
-        return doji_days
+    # def doji_pattern():
+    #     doji = talib.CDLDOJI(df['Open'], df['High'], df['Low'], df['Close'])
+    #     df['Doji'] = doji
+    #     doji_days = df[df['Doji'] != 0]
+    #     print('Doji works')
+    #     return doji_days
 
-    def spinning_top_pattern():
-        spinning_top = talib.CDLSPINNINGTOP(df['Open'], df['High'], df['Low'], df['Close'])
-        df['Spinning Top'] = spinning_top
-        spinning_top_days = df[df['Spinning Top'] != 0]
-        print('Spinning Top works')
-        return spinning_top_days
+    # def spinning_top_pattern():
+    #     spinning_top = talib.CDLSPINNINGTOP(df['Open'], df['High'], df['Low'], df['Close'])
+    #     df['Spinning Top'] = spinning_top
+    #     spinning_top_days = df[df['Spinning Top'] != 0]
+    #     print('Spinning Top works')
+    #     return spinning_top_days
 
     print(hammer_pattern())
     print(inverted_hammer_pattern())
@@ -128,11 +121,19 @@ def find_patterns():
     print(evening_star_pattern())
     print(three_black_crows_pattern())
     print(dark_cloud_cover_pattern())
-    print(doji_pattern())
-    print(spinning_top_pattern())
+    # print(doji_pattern())
+    # print(spinning_top_pattern())
 
+    plt.figure(figsize=(16, 8))
+    plt.title('Euro Close Price History')
+    plt.plot(df['Close'])
+
+    print(df)
     print(df.shape)
-    print(df.head)
+    plt.xlabel('Date', fontsize=10)
+    plt.ylabel('Close Price USD ($)', fontsize=10)
+    plt.show()
 
+    return plt
 
 find_patterns()
