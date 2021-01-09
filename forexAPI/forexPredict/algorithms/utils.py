@@ -21,8 +21,6 @@ def get_stock_plot(start_data, end_data):
     plt.title('Euro Close Price History')
     plt.plot(df['Close'])
 
-    print(df)
-    print(df.shape)
     plt.xlabel('Date', fontsize=10)
     plt.ylabel('Close Price USD ($)', fontsize=10)
     plt.show()

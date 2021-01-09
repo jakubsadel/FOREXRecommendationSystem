@@ -10,7 +10,8 @@ import { map, tap } from 'rxjs/operators';
 export class EntryComponent {
 
   title = 'FOREX Recommendation System ';
-  imgsrc = '';
+  stockimg = '';
+  lstmimg = '';
   pandas = '';
   resavg = '';
   str1 = '';
@@ -19,6 +20,7 @@ export class EntryComponent {
     this.s1.todayDate = '____-__-__';
     this.s1.previousDate =  '____-__-__';
     this.s1.stockID = '____';
+    this.s1.list = [];
   }
 
   s1: Stock = new Stock();
@@ -26,22 +28,33 @@ export class EntryComponent {
 
 
 
-  getImage(): void
+  getStockImage(): void
   {
-  this.imgsrc = '/getimg';
+  this.stockimg = '/getimg';
+  }
+
+  getLSTMImage(): void
+  {
+  this.lstmimg = '/getlstmplot';
   }
 
 
   loadStockData(): void
   {
     this.getStockInfo().subscribe(a => this.s1 = a);
-    this.getImage();
+    this.getStockImage();
   }
 
   getStockInfo()
   {
     return this._http
       .get<Stock>('/getstockdata') ;
+  }
+
+
+  loadPredictedInfo(): void
+  {
+    this.getLSTMImage();
   }
 
 }
@@ -51,4 +64,9 @@ export class Stock{
   todayDate!: string;
   previousDate!: string;
   stockID!: string;
+  list!: Array<number>
 }
+
+
+
+

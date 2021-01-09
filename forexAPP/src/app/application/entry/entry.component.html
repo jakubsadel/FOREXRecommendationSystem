@@ -1,12 +1,38 @@
+
+<div style="text-align:center">
+
+
+  <br>
+  <button mat-raised-button color="warn" (click)="loadStockData()" >Załaduj Dane</button>
+  <br>
+  <br>
+  <br>
+
+  <button mat-raised-button color="warn" (click)="loadPredictedInfo()" >Przewidz Dane</button>
+
+
+</div>
 <div style="text-align:center">
 
   <br>
 
   <label><h2>Akcje "{{s1.stockID}}" w dniach {{s1.previousDate}} - {{s1.todayDate}}</h2></label>
-  <button mat-raised-button color="warn" (click)="loadStockData()" >Załaduj Dane</button>
 
-  <img src={{imgsrc}} width="1000">
+  <img src={{stockimg}} width="1000">
 
- 
+
+</div>
+<div style="text-align:center">
+
+  <br>
+
+
+  <img src={{lstmimg}} width="1000">
+
+
+
+
+</div>
+<div>
 
 </div>

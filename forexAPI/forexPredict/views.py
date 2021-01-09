@@ -2,17 +2,16 @@ import matplotlib as pl
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
+import matplotlib.pyplot as plt
 
 pl.use('Agg')
 import pandas as pd
-
 import numpy as np
 # Create your views here.
-from rest_framework import serializers
-from rest_framework import viewsets
 
-from forexPredict.models import Stock
-from .algorithms import utils, forexLSTM, forexTALib
+from .algorithms import utils, forexLSTM
+
+predictions = forexLSTM.lstm_forecast()
 
 
 class HomePageView(TemplateView):
@@ -21,67 +20,61 @@ class HomePageView(TemplateView):
 
 
 class Stocks(TemplateView):
+
     def getStockData(request):
         todayDate = utils.get_today_date()
         previousDate = utils.get_previous_date(13)
         stockID = 'EUR/USD'
+
         return HttpResponse('{ "todayDate":"' + todayDate +
                             '", "previousDate":"' + previousDate +
                             '", "stockID":"' + stockID + '" }')
 
     def getLSTM(request):
-        predictions = forexLSTM.lstm_forecast()
-        # str1 = ""
-        #
-        # for ele in predictions:
-        #     flolt = ele.item()
-        # #     flolt = "{:.4f}".format(flolt)
-        # #     due = str(flolt)
-        # #     str1 = str1 + " " + due
-        #
-        # print(str1)
-        request.getLSTMplot(predictions)
-        return HttpResponse('{ "Predictions":"' + "str1" + '" }')
+        print(predictions)
+        pred_list = list(predictions)
+        str_response = ""
+        for ele in pred_list:
+            single_price = ele.item()
+            single_price = "{:.4f}".format(single_price)
+            due = str(single_price)
+            str_response = '{ "' + str_response + '", "day":"' + due + '" }'
 
-    def getNums(request):
-        n = np.array([2, 3, 4])
-        name1 = "name-" + str(n[1])
-        return HttpResponse('{ "name":"' + name1 + '", "age":31, "city":"New York" }')
+        str_response[:-1]
+        print(str_response)
+
+        return HttpResponse('{ "' + str_response + '" }')
+
 
     def getImage(request):
         todayDate = utils.get_today_date()
         previousDate = utils.get_previous_date(13)
         plt = utils.get_stock_plot(previousDate, todayDate)
-        # plt = forexTALib.find_patterns()
-
         response = HttpResponse(content_type="image/jpeg")
         plt.savefig(response, format="png")
         return response
 
     def getLSTMplot(request):
+        print(predictions)
+        days = np.arange(1, 6)
 
-        plt = forexLSTM.lstm_forecast()
+        plt.figure(figsize=(16, 8))
+        plt.title('Euro Close Price History')
+        plt.plot(days, predictions)
+
+        plt.xlabel('Day', fontsize=10)
+        plt.ylabel('Close Price USD ($)', fontsize=10)
 
         response = HttpResponse(content_type="image/jpeg")
         plt.savefig(response, format="png")
         return response
 
-    def getData(request):
-        samp = np.random.randint(100, 600, size=(4, 5))
-        df = pd.DataFrame(samp, index=['avi', 'dani', 'rina', 'dina'],
-                          columns=['Jan', 'Feb', 'Mar', 'Apr', 'May'])
-        return HttpResponse(df.to_html(classes='table table-bordered'))
 
+    def getImage(request):
+        todayDate = utils.get_today_date()
+        previousDate = utils.get_previous_date(13)
+        plt = utils.get_stock_plot(previousDate, todayDate)
 
-class StockSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Stock
-        fields = ('today_date', 'previous_date')
-
-
-class StockViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Stock.objects.all()
-    serializer_class = StockSerializer
+        response = HttpResponse(content_type="image/jpeg")
+        plt.savefig(response, format="png")
+        return response

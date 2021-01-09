@@ -50,7 +50,7 @@ def lstm_forecast():
 
     forexPredictor = load_model("forex_model")
     end_date = utils.get_today_date()
-    start_date = utils.get_previous_date(84)
+    start_date = utils.get_previous_date(85)
     user_df = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='1d')
     user_df = user_df.filter(['Close'])
     user_data_value = user_df.values
@@ -58,6 +58,7 @@ def lstm_forecast():
     forex_input = []
     for i in range(60, len(user_data)):
         forex_input.append(user_data[i - 60:i, 0])
+
     temp_input = list(forex_input)
     temp_input = temp_input[0].tolist()
     forex_input = np.array(forex_input)
@@ -67,7 +68,7 @@ def lstm_forecast():
     n_steps = 60
     i = 0
 
-    while i < 10:
+    while i < 5:
 
         if (len(temp_input) > n_steps):
             forex_input = np.array(temp_input[1:])
@@ -87,7 +88,7 @@ def lstm_forecast():
     predictions = scaler.inverse_transform(lstm_output)
 
     print(predictions)
-    days = np.arange(1, 11)
+    days = np.arange(1, 6)
 
     plt.figure(figsize=(16, 8))
     plt.title('Euro Close Price History')
@@ -96,5 +97,5 @@ def lstm_forecast():
     plt.xlabel('Day', fontsize=10)
     plt.ylabel('Close Price USD ($)', fontsize=10)
 
-    return plt
+    return predictions
 

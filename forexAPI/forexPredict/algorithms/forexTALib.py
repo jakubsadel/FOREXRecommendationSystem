@@ -136,4 +136,4 @@ def find_patterns():
 
     return plt
 
-find_patterns()
+
