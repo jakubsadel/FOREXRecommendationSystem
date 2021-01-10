@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
-import pandas_datareader as web
-
+import yfinance as yf
 
 def get_today_date():
     tup = datetime.today().strftime('%Y-%m-%d')
@@ -15,8 +14,9 @@ def get_previous_date(days):
     return date_previous
 
 
-def get_stock_plot(start_data, end_data):
-    df = web.DataReader('EURUSD=X', data_source='yahoo', start=start_data, end=end_data)
+def get_stock_plot(start_date, end_date):
+    df = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='1d')
+
     plt.figure(figsize=(16, 8))
     plt.title('Euro Close Price History')
     plt.plot(df['Close'])

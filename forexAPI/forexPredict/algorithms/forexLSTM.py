@@ -8,7 +8,6 @@ from keras.models import Sequential, load_model
 from forexPredict.algorithms import utils
 
 
-
 def lstm_forecast():
     data = yf.download(tickers='EURUSD=X', start='2011-12-31', end='2019-12-31', interval='1d')
     data_close = data.filter(['Close'])
@@ -88,14 +87,18 @@ def lstm_forecast():
     predictions = scaler.inverse_transform(lstm_output)
 
     print(predictions)
+
+    return predictions
+
+
+def get_LSTM_plot(predictions):
     days = np.arange(1, 6)
 
     plt.figure(figsize=(16, 8))
-    plt.title('Euro Close Price History')
+    plt.title('Euro Close Price Predictions')
     plt.plot(days, predictions)
 
     plt.xlabel('Day', fontsize=10)
     plt.ylabel('Close Price USD ($)', fontsize=10)
 
-    return predictions
-
+    return plt
