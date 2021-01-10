@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^getimg/$', views.Stocks.getStockPlot),
     url(r'^getlstmdata/$', views.Stocks.getLSTMdata),
     url(r'^getlstmplot/$', views.Stocks.getLSTMPlot),
+    url(r'^getpatterns/$', views.Stocks.getPatterns),
 ]

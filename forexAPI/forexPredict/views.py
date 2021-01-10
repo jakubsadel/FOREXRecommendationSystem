@@ -47,13 +47,15 @@ class Stocks(TemplateView):
                             '", "day_4":"' + send_list[3] +
                             '", "day_5":"' + send_list[4] + '" }')
 
-    def getImage(request):
-        todayDate = utils.get_today_date()
-        previousDate = utils.get_previous_date(13)
-        plt = utils.get_stock_plot(previousDate, todayDate)
-        response = HttpResponse(content_type="image/jpeg")
-        plt.savefig(response, format="png")
-        return response
+    def getPatterns(request):
+        candle_name, trend_val, spot_date, trend = forexTALib.find_patterns()
+
+        trend_val = str(trend_val)
+        return HttpResponse('{ "candle_name":"' + candle_name +
+                            '", "trend_val":"' + trend_val +
+                            '", "spot_date":"' + spot_date +
+                            '", "trend":"' + trend + '" }')
+
 
     def getLSTMPlot(request):
 
