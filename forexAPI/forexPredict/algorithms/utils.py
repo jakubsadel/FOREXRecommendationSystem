@@ -15,7 +15,7 @@ def get_previous_date(days):
 
 
 def get_stock_plot(start_date, end_date):
-    df = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='1d')
+    df = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='15m')
 
     plt.figure(figsize=(16, 8))
     plt.title('Euro Close Price History')

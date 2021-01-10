@@ -1,14 +1,11 @@
-import matplotlib as pl
-import pandas as pd
-import numpy as np
+import matplotlib as plt
 from django.http import HttpResponse
 from django.shortcuts import render
 from .algorithms import utils, forexLSTM, forexTALib
-
 from django.views.generic import TemplateView
-import matplotlib.pyplot as plt
 
-pl.use('Agg')
+
+plt.use('Agg')
 
 
 # Create your views here.
@@ -51,9 +48,9 @@ class Stocks(TemplateView):
         candle_name, trend_val, spot_date, trend = forexTALib.find_patterns()
 
         trend_val = str(trend_val)
-        return HttpResponse('{ "candle_name":"' + candle_name +
-                            '", "trend_val":"' + trend_val +
-                            '", "spot_date":"' + spot_date +
+        return HttpResponse('{ "candleName":"' + candle_name +
+                            '", "trendVal":"' + trend_val +
+                            '", "spotDate":"' + spot_date +
                             '", "trend":"' + trend + '" }')
 
 

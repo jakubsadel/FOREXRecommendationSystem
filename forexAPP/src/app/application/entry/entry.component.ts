@@ -20,11 +20,14 @@ export class EntryComponent {
     this.s1.todayDate = '____-__-__';
     this.s1.previousDate =  '____-__-__';
     this.s1.stockID = '____';
-    this.s1.list = [];
+    this.p1.candleName = '';
+    this.p1.trendVal = '';
+    this.p1.spotDate = '';
+    this.p1.trend = '';
   }
 
   s1: Stock = new Stock();
-
+  p1: Predictions = new Predictions();
 
 
 
@@ -51,9 +54,15 @@ export class EntryComponent {
       .get<Stock>('/getstockdata') ;
   }
 
+  getPatternInfo()
+  {
+    return this._http
+      .get<Predictions>('/getpatterns') ;
+  }
 
   loadPredictedInfo(): void
   {
+    this.getPatternInfo().subscribe(a => this.p1 = a);
     this.getLSTMImage();
   }
 
@@ -64,9 +73,14 @@ export class Stock{
   todayDate!: string;
   previousDate!: string;
   stockID!: string;
-  list!: Array<number>
 }
 
+export class Predictions{
+  candleName!: string;
+  trendVal!: string;
+  spotDate!: string;
+  trend!: string;
+}
 
 
 

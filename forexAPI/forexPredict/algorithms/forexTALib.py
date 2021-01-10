@@ -225,9 +225,9 @@ def find_patterns():
     print(candle_name)
 
     if trend_val>0:
-        trend = "Wzrost"
+        trend = "wzrost"
     else:
-        trend = "Spadek"
+        trend = "spadek"
 
     return candle_name, trend_val, spot_date, trend
 
