@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-entry',
@@ -12,10 +13,8 @@ export class EntryComponent {
   title = 'FOREX Recommendation System ';
   stockimg = '';
   lstmimg = '';
-  pandas = '';
-  resavg = '';
-  str1 = '';
-  todayDate = '';
+  condition = 0;
+
   constructor(private _http: HttpClient) {
     this.s1.todayDate = '____-__-__';
     this.s1.previousDate =  '____-__-__';
@@ -24,6 +23,8 @@ export class EntryComponent {
     this.p1.trendVal = '';
     this.p1.spotDate = '';
     this.p1.trend = '';
+    this.p1.taRecommendation = 'czekaj';
+
   }
 
   s1: Stock = new Stock();
@@ -62,10 +63,12 @@ export class EntryComponent {
 
   loadPredictedInfo(): void
   {
+    this.condition = 1;
     this.getPatternInfo().subscribe(a => this.p1 = a);
     this.getLSTMImage();
   }
 
+  
 }
 
 
@@ -80,6 +83,7 @@ export class Predictions{
   trendVal!: string;
   spotDate!: string;
   trend!: string;
+  taRecommendation!: string;
 }
 
 

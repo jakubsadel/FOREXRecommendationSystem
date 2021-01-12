@@ -45,12 +45,13 @@ class Stocks(TemplateView):
                             '", "day_5":"' + send_list[4] + '" }')
 
     def getPatterns(request):
-        candle_name, trend_val, spot_date, trend = forexTALib.find_patterns()
+        candle_name, trend_val, spot_date, trend, ta_recommendation = forexTALib.find_patterns()
 
         trend_val = str(trend_val)
         return HttpResponse('{ "candleName":"' + candle_name +
                             '", "trendVal":"' + trend_val +
                             '", "spotDate":"' + spot_date +
+                            '", "taRecommendation":"' + ta_recommendation +
                             '", "trend":"' + trend + '" }')
 
 

@@ -226,8 +226,11 @@ def find_patterns():
 
     if trend_val>0:
         trend = "wzrost"
+        ta_recommendation = "kupuj"
     else:
         trend = "spadek"
+        ta_recommendation = "sprzedaj"
 
-    return candle_name, trend_val, spot_date, trend
+
+    return candle_name, trend_val, spot_date, trend, ta_recommendation
 

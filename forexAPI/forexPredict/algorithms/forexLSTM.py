@@ -49,7 +49,7 @@ def lstm_forecast():
 
     forexPredictor = load_model("forex_model")
     end_date = utils.get_today_date()
-    start_date = utils.get_previous_date(85)
+    start_date = utils.get_previous_date(86)
     user_df = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='1d')
     user_df = user_df.filter(['Close'])
     user_data_value = user_df.values

@@ -4,10 +4,7 @@
 
   <br>
   <button mat-raised-button color="warn" (click)="loadStockData()" >Załaduj Dane</button>
-  <br>
-  <br>
-  <br>
-
+ 
   <button mat-raised-button color="warn" (click)="loadPredictedInfo()" >Przewidz Dane</button>
 
 
@@ -16,22 +13,22 @@
 
   <br>
 
-  <label><h2>Akcje "{{s1.stockID}}" w dniach {{s1.previousDate}} - {{s1.todayDate}}</h2></label>
+  <label><h1>Akcje "{{s1.stockID}}" w dniach {{s1.previousDate}} - {{s1.todayDate}}</h1></label>
 
   <img src={{stockimg}} width="1000">
 
 
 </div>
-<div style="text-align:center">
+<div *ngIf="condition" style="text-align:center">
 
   <br>
 
-  <label><h2>Nazwa świecy {{p1.candleName}} o wartości {{p1.trendVal}} oznacza {{p1.trend}} cen akcjii</h2></label>
-  <label><h2>Świeca wykryta {{p1.spotDate}}</h2></label>
+  <label><h2>Nazwa świecy {{p1.candleName}} o wartości {{p1.trendVal}}  wykryta {{p1.spotDate}}</h2></label>
+  <label><h2>Oznacza to {{p1.trend}} cen akcjii</h2></label>
+  <label><h2>Rekomendacja Analizy Technicznej = {{p1.taRecommendation}}.</h2></label>
 
   <br>
   <label><h2>Prognoza według sieci neuronowej</h2></label>
-  <br>
   <img src={{lstmimg}} width="1000">
 
 
