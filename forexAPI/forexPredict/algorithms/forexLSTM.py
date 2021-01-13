@@ -9,9 +9,9 @@ from forexPredict.algorithms import utils
 
 
 def lstm_forecast():
-    data = yf.download(tickers='EURUSD=X', start='2011-12-31', end='2019-12-31', interval='1d')
-    data_close = data.filter(['Close'])
-    dataset = data_close.values
+    df = yf.download(tickers='EURUSD=X', start='2011-12-31', end='2019-12-31', interval='1d')
+    df_close = df.filter(['Close'])
+    dataset = df_close.values
     train_len = math.ceil(len(dataset) * .8)
     scaler = MinMaxScaler(feature_range=(0, 1))
     training_data = scaler.fit_transform(dataset[:train_len, :])
@@ -49,7 +49,7 @@ def lstm_forecast():
 
     forexPredictor = load_model("forex_model")
     end_date = utils.get_today_date()
-    start_date = utils.get_previous_date(86)
+    start_date = utils.get_previous_date(84)
     user_df = yf.download(tickers='EURUSD=X', start=start_date, end=end_date, interval='1d')
     user_df = user_df.filter(['Close'])
     user_data_value = user_df.values

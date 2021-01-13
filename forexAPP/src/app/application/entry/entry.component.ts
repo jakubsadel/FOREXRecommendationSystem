@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
-import { ThrowStmt } from '@angular/compiler';
+import { Stock} from 'src/app/application/model/stock';
+import { Predictions} from 'src/app/application/model/predictions';
 
 @Component({
   selector: 'app-entry',
@@ -68,23 +68,11 @@ export class EntryComponent {
     this.getLSTMImage();
   }
 
-  
 }
 
 
-export class Stock{
-  todayDate!: string;
-  previousDate!: string;
-  stockID!: string;
-}
 
-export class Predictions{
-  candleName!: string;
-  trendVal!: string;
-  spotDate!: string;
-  trend!: string;
-  taRecommendation!: string;
-}
+
 
 
 
