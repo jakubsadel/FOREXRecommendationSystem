@@ -7,7 +7,7 @@ from forexPredict.algorithms import utils
 
 
 def find_patterns():
-    end_date = utils.get_today_date()
+    end_date = utils.get_previous_date(0)
     start_date = utils.get_previous_date(13)
 
     print(start_date)

@@ -4,24 +4,22 @@ from django.shortcuts import render
 from .algorithms import utils, forexLSTM, forexTALib
 from django.views.generic import TemplateView
 
-
 plt.use('Agg')
-
 
 # Create your views here.
 
-
-predictions = forexLSTM.lstm_forecast()
-
+predictions, rmse = forexLSTM.lstm_forecast()
 
 class HomePageView(TemplateView):
     def get(self, request, **kwargs):
-        return render(request, 'index.html', context=None)
+        return render(request,
+                      'index.html',
+                      context=None)
 
 
 class Stocks(TemplateView):
 
-    def getStockData(request):
+    def get_stock_data(request):
         todayDate = utils.get_today_date()
         previousDate = utils.get_previous_date(13)
         stockID = 'EUR/USD'
@@ -30,21 +28,9 @@ class Stocks(TemplateView):
                             '", "previousDate":"' + previousDate +
                             '", "stockID":"' + stockID + '" }')
 
-    def getLSTMdata(request):
-        pred_list = list(predictions)
-        send_list = []
-        for ele in pred_list:
-            single_price = ele.item()
-            single_price = "{:.4f}".format(single_price)
-            send_list.append(str(single_price))
 
-        return HttpResponse('{ "day_1":"' + send_list[0] +
-                            '", "day_2":"' + send_list[1] +
-                            '", "day_3":"' + send_list[2] +
-                            '", "day_4":"' + send_list[3] +
-                            '", "day_5":"' + send_list[4] + '" }')
 
-    def getPatterns(request):
+    def get_patterns(request):
         candle_name, trend_val, spot_date, trend, ta_recommendation = forexTALib.find_patterns()
 
         trend_val = str(trend_val)
@@ -54,8 +40,24 @@ class Stocks(TemplateView):
                             '", "taRecommendation":"' + ta_recommendation +
                             '", "trend":"' + trend + '" }')
 
+    def get_lstm_data(request):
+        pred_list = list(predictions)
+        send_list = []
+        for ele in pred_list:
+            single_price = ele.item()
+            single_price = "{:.4f}".format(single_price)
+            single_price = str(single_price)
+            send_list.append(single_price)
+        send_rmse = str(rmse)
+        return HttpResponse('{ "rmse":"' + send_rmse +
+                            '", "day_1":"' + send_list[0] +
+                            '", "day_2":"' + send_list[1] +
+                            '", "day_3":"' + send_list[2] +
+                            '", "day_4":"' + send_list[3] +
+                            '", "day_5":"' + send_list[4] + '" }')
 
-    def getLSTMPlot(request):
+
+    def get_lstm_plot(request):
 
         chart = forexLSTM.get_LSTM_plot(predictions)
 
@@ -63,7 +65,7 @@ class Stocks(TemplateView):
         chart.savefig(response, format="png")
         return response
 
-    def getStockPlot(request):
+    def get_stock_plot(request):
         todayDate = utils.get_today_date()
         previousDate = utils.get_previous_date(13)
         chart = utils.get_stock_plot(previousDate, todayDate)

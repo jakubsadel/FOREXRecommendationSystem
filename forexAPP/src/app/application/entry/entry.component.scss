@@ -7,3 +7,13 @@ table {
 button {
   margin-left: 10px;
 }
+th {
+  background-color: #f44336;
+  color: white;
+}
+
+table, th, td {
+  border-collapse: collapse;
+  border: 1px solid black;
+
+}

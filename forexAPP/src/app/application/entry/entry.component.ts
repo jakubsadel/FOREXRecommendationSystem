@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Stock} from 'src/app/application/model/stock';
-import { Predictions} from 'src/app/application/model/predictions';
+import { TAPredictions} from 'src/app/application/model/tapredictions';
+import { LSTMPredictions} from 'src/app/application/model/lstmpredictions';
+
 
 @Component({
   selector: 'app-entry',
@@ -19,22 +21,28 @@ export class EntryComponent {
     this.s1.todayDate = '____-__-__';
     this.s1.previousDate =  '____-__-__';
     this.s1.stockID = '____';
-    this.p1.candleName = '';
-    this.p1.trendVal = '';
-    this.p1.spotDate = '';
-    this.p1.trend = '';
-    this.p1.taRecommendation = 'czekaj';
+    this.t1.candleName = '';
+    this.t1.trendVal = '';
+    this.t1.spotDate = '';
+    this.t1.trend = '';
+    this.t1.taRecommendation = 'czekaj';
+    this.l1.rmse = '';
+    this.l1.day_1 = '';
+    this.l1.day_2 = '';
+    this.l1.day_3 = '';
+    this.l1.day_4 = '';
+    this.l1.day_5 = '';
 
   }
 
   s1: Stock = new Stock();
-  p1: Predictions = new Predictions();
-
+  t1: TAPredictions = new TAPredictions();
+  l1: LSTMPredictions = new LSTMPredictions();
 
 
   getStockImage(): void
   {
-  this.stockimg = '/getimg';
+  this.stockimg = '/getstockplot';
   }
 
   getLSTMImage(): void
@@ -58,13 +66,20 @@ export class EntryComponent {
   getPatternInfo()
   {
     return this._http
-      .get<Predictions>('/getpatterns') ;
+      .get<TAPredictions>('/getpatternsdata') ;
+  }
+
+  getLSTMInfo()
+  {
+    return this._http
+      .get<LSTMPredictions>('/getlstmdata') ;
   }
 
   loadPredictedInfo(): void
   {
     this.condition = 1;
-    this.getPatternInfo().subscribe(a => this.p1 = a);
+    this.getPatternInfo().subscribe(t => this.t1 = t);
+    this.getLSTMInfo().subscribe(l => this.l1 = l);
     this.getLSTMImage();
   }
 
