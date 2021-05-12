@@ -1,0 +1,12 @@
+do poprzednich operracji jak sie uruchamia 
+wyszukac w domenie ludzika
+jego menadzera 
+i jego maila
+
+
+CN=Roman Wons,
+
+^OU=(\w+),${rootPath}
+
+
+^CN=Roman Wons,OU=(\w+),${rootPath}
