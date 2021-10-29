@@ -37,3 +37,5 @@ After that you check if evrything is correct with database, execute `python mana
 ## Use application
 
 Enter `localhost:8000` in your browser and enjoy FOREX stock predictions 
+
+## JP II był dobrym ziemianinem
